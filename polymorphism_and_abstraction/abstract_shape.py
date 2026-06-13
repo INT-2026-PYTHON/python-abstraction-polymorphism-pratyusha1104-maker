@@ -99,3 +99,89 @@ Explanation:
 =================================================
 
 """
+from abc import ABC, abstractmethod
+class Shape(ABC):
+
+    def __init__(self, name):
+        self.name = name
+
+    @abstractmethod
+    def area(self):
+        pass
+
+    @abstractmethod
+    def perimeter(self):
+        pass
+
+
+class Circle(Shape):
+
+    def __init__(self, radius):
+        super().__init__("Circle")
+        self.radius = radius
+
+    def area(self):
+        return 3.14159 * self.radius ** 2
+
+    def perimeter(self):
+        return 2 * 3.14159 * self.radius
+
+
+class Rectangle(Shape):
+
+    def __init__(self, length, width):
+        super().__init__("Rectangle")
+        self.length = length
+        self.width = width
+
+    def area(self):
+        return self.length * self.width
+
+    def perimeter(self):
+        return 2 * (self.length + self.width)
+
+
+class Triangle(Shape):
+
+    def __init__(self, side1, side2, side3):
+        super().__init__("Triangle")
+        self.side1 = side1
+        self.side2 = side2
+        self.side3 = side3
+
+    def perimeter(self):
+        return self.side1 + self.side2 + self.side3
+
+    def area(self):
+        s = self.perimeter() / 2
+        return (s * (s - self.side1) *
+                (s - self.side2) *
+                (s - self.side3)) ** 0.5
+
+
+try:
+    shape = Shape("nope")
+except TypeError as e:
+    print("Cannot create Shape directly:")
+    print(e)
+
+radius = float(input("Enter circle radius: "))
+circle = Circle(radius)
+
+length = float(input("Enter rectangle length: "))
+width = float(input("Enter rectangle width: "))
+rectangle = Rectangle(length, width)
+
+side1 = float(input("Enter triangle side 1: "))
+side2 = float(input("Enter triangle side 2: "))
+side3 = float(input("Enter triangle side 3: "))
+triangle = Triangle(side1, side2, side3)
+
+shapes = [circle, rectangle, triangle]
+
+for shape in shapes:
+    print(
+        f"{shape.name} -> "
+        f"Area = {shape.area():.2f}, "
+        f"Perimeter = {shape.perimeter():.2f}"
+    )
